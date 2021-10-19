@@ -8,7 +8,6 @@
         <module>V1</module>
         <module>V2</module>
         <module>V3</module>
-        <module>V_3</module>
         <module>V4</module>
         <module>V5</module>
         <module>V6</module>
@@ -18,6 +17,8 @@
         <module>V10</module>
         <module>V11</module>
         <module>V12</module>
+        <module>V13</module>
+        <module>V14</module>
     </modules>
     <properties>
         <!-- 设置 JDK 版本为 1.8 -->
@@ -27,11 +28,28 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+
+        <!-- https://mvnrepository.com/artifact/org.dom4j/dom4j -->
+
     </properties>
 
     <groupId>org.example</groupId>
     <artifactId>WebServer</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>2.1.3</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+    </dependencies>
 
 
 </project>

@@ -1,0 +1,20 @@
+重构代码
+将DispatcherServlet中创建的Map mimeMapping定义为静态的，全局一份即可，无需每次请求都
+重新创建一遍它。
+
+实现:
+1:在com.webserver.http包下新建一个类:HttpContext
+  这个类用于定义所有和HTTP协议相关可被反复重用的信息
+
+2:在HttpContext中定义静态属性Map mimeMapping并在静态块中完成初始化工作
+
+3:提供一个静态的公开方法:getCont,可以让外界根据资源的后缀名获取Content-Type的值
+  就是用后缀名作为key去mimeMapping中提取value进行返回。
+
+4:修改DispatcherServlet原有的逻辑，改为从HttpContext中获取。
+
+第二个改动：
+由于只要向响应对象中添加了响应正文的文件，就应当包含两个说明正文的响应头：Content-Type和
+Content-Length，那么我们可以直接将设置这两个响应头的工作从DispatcherServlet中移动到
+HttpServletResponse的setEntry中，这样DispatcherServlet处理的分支中无论是正确响应
+资源还是404都不再需要设置这两个头了
