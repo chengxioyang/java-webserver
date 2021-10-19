@@ -14,23 +14,22 @@ import java.util.Map;
  * 2:处理请求
  * 3:响应客户端
  */
-public class ClientHandler implements Runnable{
+public class ClientHandler implements Runnable {
     private Socket socket;
 
-    public ClientHandler(Socket socket){
+    public ClientHandler(Socket socket) {
         this.socket = socket;
     }
 
     public void run() {
-        try{
+        try {
             //1解析请求
             HttpServletRequest request = new HttpServletRequest(socket);
 
 
-
             //2处理请求
             String path = request.getUri();
-            System.out.println("请求路径："+path);
+            System.out.println("请求路径：" + path);
 
 
             //3发送响应
@@ -59,46 +58,47 @@ public class ClientHandler implements Runnable{
              */
             String line;
             OutputStream out = socket.getOutputStream();
-            if(file.exists() && file.isFile()) {
+            if (file.exists() && file.isFile()) {
                 line = "HTTP/1.1 200 OK";
-            }else{
+            } else {
                 line = "HTTP/1.1 404 NotFound";
                 file = new File("./webapps/root/404.html");
             }
-                //3.1发送状态行
+            //3.1发送状态行
 
-                out.write(line.getBytes("ISO8859-1"));
-                out.write(13);//发送了一个回车符CR
-                out.write(10);//发送了一个换行符LF
 
-                //3.2发送响应头
-                line = "Content-Type: text/html";
-                out.write(line.getBytes("ISO8859-1"));
-                out.write(13);
-                out.write(10);
+            out.write(line.getBytes("ISO8859-1"));
+            out.write(13);//发送了一个回车符CR
+            out.write(10);//发送了一个换行符LF
 
-                line = "Content-Length: " + file.length();
-                out.write(line.getBytes("ISO8859-1"));
-                out.write(13);
-                out.write(10);
+            //3.2发送响应头
+            line = "Content-Type: text/html";
+            out.write(line.getBytes("ISO8859-1"));
+            out.write(13);
+            out.write(10);
 
-                //单独发送CRLF表示响应头发送完毕了
-                out.write(13);
-                out.write(10);
+            line = "Content-Length: " + file.length();
+            out.write(line.getBytes("ISO8859-1"));
+            out.write(13);
+            out.write(10);
 
-                //3.3发送响应正文
-                FileInputStream fis = new FileInputStream(file);
-                int len;
-                byte[] data = new byte[1024 * 10];
-                while ((len = fis.read(data)) != -1) {
-                    out.write(data, 0, len);
-                }
+            //单独发送CRLF表示响应头发送完毕了
+            out.write(13);
+            out.write(10);
+
+            //3.3发送响应正文
+            FileInputStream fis = new FileInputStream(file);
+            int len;
+            byte[] data = new byte[1024 * 10];
+            while ((len = fis.read(data)) != -1) {
+                out.write(data, 0, len);
+            }
 
             System.out.println("响应发送完毕");
 
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 //HTTP协议要求一次交互完毕后要断开TCP连接
                 socket.close();
@@ -107,7 +107,6 @@ public class ClientHandler implements Runnable{
             }
         }
     }
-
 
 
 }
