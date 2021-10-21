@@ -4,6 +4,7 @@ import com.webserver.http.HttpServletRequest;
 
 import java.io.*;
 import java.net.Socket;
+import java.sql.SQLOutput;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,8 +67,6 @@ public class ClientHandler implements Runnable{
                 out.write(data,0,len);
             }
             System.out.println("响应发送完毕");
-
-
         }catch(IOException e){
             e.printStackTrace();
         }finally {
@@ -79,7 +78,4 @@ public class ClientHandler implements Runnable{
             }
         }
     }
-
-
-
 }
