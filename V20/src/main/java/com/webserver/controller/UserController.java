@@ -4,10 +4,7 @@ import com.webserver.http.HttpServletRequest;
 import com.webserver.http.HttpServletResponse;
 import com.webserver.vo.User;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 
 /**
  * 用于处理与用户数据相关的操作
@@ -46,7 +43,6 @@ public class UserController {
             该页面居中显示一行字：注册信息输入有误，请重新注册
 
          */
-
 
         if(username==null || password==null || nickname==null || ageStr==null || !ageStr.matches("[0-9]+")) {
             File file = new File("./webapps/myweb/reg_info_err.html");
@@ -87,7 +83,36 @@ public class UserController {
             }
         System.out.println("用户注册处理完毕...");
 
+    }
+    public void login(HttpServletRequest request,HttpServletResponse response){
+        System.out.println("用户开始登录...");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        if(username==null || password==null){
+            File file = new File("./webapps/myweb/login_error.html");
+            response.setEntity(file);
+            return;
+        }
+        File userFile = new File(USER_DIR+username+".obj");
+        if(userFile.exists()) {
+            try (
+                    FileInputStream fis = new FileInputStream(userFile);
+                    ObjectInputStream ois = new ObjectInputStream(fis);
+            ) {
+                User u = (User) ois.readObject();
+                System.out.println(u);
 
-
+                if (password.equals(u.getPassword())) {
+                    File file = new File("./webapps/myweb/login_success.html");
+                    response.setEntity(file);
+                    return;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("用户登录完毕...");
+        File file = new File("./webapps/myweb/login_fail.html");
+        response.setEntity(file);
     }
 }
