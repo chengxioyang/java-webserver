@@ -19,13 +19,12 @@ public class ArticleController {
         String title = request.getParameter("title");
         String author = request.getParameter("author");
         String content = request.getParameter("content");
-
         if(title==null || content==null){
             File file = new File("./webapps/myweb/article_fail.html");
             response.setEntity(file);
             return;
         }
-        File titleFile = new File(TITLE_DIR+title+".obj");
+        File titleFile = new File(TITLE_DIR+title+".txt");
         Article article = new Article(title,author,content);
         try (
                 FileOutputStream fos = new FileOutputStream(titleFile);
