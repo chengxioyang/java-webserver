@@ -29,6 +29,7 @@
         <module>V22</module>
         <module>V23</module>
         <module>V24</module>
+        <module>V25</module>
     </modules>
     <properties>
         <!-- 设置 JDK 版本为 1.8 -->
