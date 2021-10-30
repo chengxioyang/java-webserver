@@ -1,0 +1,4 @@
+模仿spring MVC,将所有处理业务的类使用@Controller标注，并将里面处理某个请求的业务方法
+使用@RequestMapping标注。是的DispatcherServlet在根据请求调用业务处理类及对应方法时
+无需再写分支判断，而是利用反射机制自动调用。
+使得将来再添加新业务时，DispatcherServlet无需再做任何修改。
